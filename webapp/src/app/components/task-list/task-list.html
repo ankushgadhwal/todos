@@ -1,0 +1,105 @@
+<div class="task-list-wrapper">
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <span class="total-label">
+        <!-- <span class="total-num">{{ tasks.length }}</span> tasks -->
+      </span>
+      <span class="divider"></span>
+      <span class="done-label">
+        <!-- {{ completedCount }} done -->
+      </span>
+    </div>
+    <!-- <div class="toolbar-right">
+      <button
+        class="filter-btn"
+        *ngFor="let f of filters"
+        [class.active]="activeFilter === f.value"
+        (click)="activeFilter = f.value"
+      >{{ f.label }}</button>
+    </div> -->
+  </div>
+
+  <!-- List -->
+  <ul class="task-list">
+    @for (task of tasks(); track task.id) {
+      <li class="task-card" [class.completed]="task.completed">
+        <!-- Checkbox -->
+        <button
+          class="check-btn"
+          [class.checked]="task.completed"
+          (click)="toggleTask(task)"
+          [attr.aria-label]="task.completed ? 'Mark incomplete' : 'Mark complete'"
+        >
+          <svg *ngIf="task.completed" viewBox="0 0 12 12" fill="none">
+            <polyline
+              points="2,6 5,9 10,3"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+
+        <!-- Content -->
+        <div class="task-content">
+          <div class="task-top">
+            <span class="task-title">{{ task.title }}</span>
+            <span class="task-id">#{{ task.id }}</span>
+          </div>
+          <p class="task-desc">{{ task.description }}</p>
+        </div>
+
+        <!-- Status badge -->
+        <span class="status-badge" [class.done]="task.completed">
+          {{ task.completed ? 'Done' : 'Pending' }}
+        </span>
+      </li>
+    }
+    <li
+      class="task-card"
+      *ngFor="let task of tasks(); let i = index"
+      [class.completed]="task.completed"
+      [style.animation-delay]="i * 50 + 'ms'"
+    >
+      <!-- Checkbox -->
+      <button
+        class="check-btn"
+        [class.checked]="task.completed"
+        (click)="toggleTask(task)"
+        [attr.aria-label]="task.completed ? 'Mark incomplete' : 'Mark complete'"
+      >
+        <svg *ngIf="task.completed" viewBox="0 0 12 12" fill="none">
+          <polyline
+            points="2,6 5,9 10,3"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+
+      <!-- Content -->
+      <div class="task-content">
+        <div class="task-top">
+          <span class="task-title">{{ task.title }}</span>
+          <span class="task-id">#{{ task.id }}</span>
+        </div>
+        <p class="task-desc">{{ task.description }}</p>
+      </div>
+
+      <!-- Status badge -->
+      <span class="status-badge" [class.done]="task.completed">
+        {{ task.completed ? 'Done' : 'Pending' }}
+      </span>
+    </li>
+
+    <!-- Empty state -->
+    <!-- <li class="empty-state" *ngIf="filteredTasks.length === 0">
+      <span class="empty-icon">○</span>
+      <span>No tasks here</span>
+    </li> -->
+  </ul>
+</div>

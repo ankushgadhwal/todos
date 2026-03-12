@@ -1,0 +1,7 @@
+<p>home works!</p>
+@if (taskUi.showAddForm()) {
+  <app-task-form (cancelled)="onCancel()"></app-task-form>
+}
+<div class="task-list-container">
+  <app-task-list [tasks]="taskSvc.tasks()" ></app-task-list>
+</div>

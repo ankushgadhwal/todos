@@ -1,0 +1,50 @@
+<div class="overlay" (click)="onOverlayClick($event)">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Add new task">
+
+    <div class="modal-header">
+      <div class="header-label">
+        <span class="dot"></span>
+        New Task
+      </div>
+      <button class="close-btn" (click)="onCancel()" aria-label="Close">✕</button>
+    </div>
+
+    <div class="modal-body">
+
+      <!-- Title -->
+      <div class="field">
+        <label class="field-label" for="task-title">Task Title</label>
+        <input
+          id="task-title"
+          class="input"
+          type="text"
+          placeholder="What needs to be done?"
+          [(ngModel)]="form.title"
+          (keydown.enter)="onSubmit()"
+          [class.error]="submitted && !form.title.trim()"
+          autofocus
+        />
+        <span class="error-msg" *ngIf="submitted && !form.title.trim()">Task name is required</span>
+      </div>
+
+      <!-- Description -->
+      <div class="field">
+        <label class="field-label" for="task-description">Description <span class="optional">optional</span></label>
+        <textarea
+          id="task-description"
+          class="input textarea"
+          placeholder="Add details..."
+          [(ngModel)]="form.description"
+          rows="3"
+        ></textarea>
+      </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="onCancel()" type="button">Cancel</button>
+      <button class="btn-submit" (click)="onSubmit()" type="button">
+        <span class="plus-icon">+</span> Add Task
+      </button>
+    </div>
+
+  </div>
+</div>

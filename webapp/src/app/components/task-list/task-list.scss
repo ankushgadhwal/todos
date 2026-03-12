@@ -1,0 +1,217 @@
+/* task-list.component.scss */
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap');
+
+:host {
+  --clr-bg: #0f0f0f;
+  --clr-surface: #181818;
+  --clr-surface-2: #202020;
+  --clr-accent: #c8f250;
+  --clr-accent-dim: rgba(200, 242, 80, 0.1);
+  --clr-text: #f0f0f0;
+  --clr-muted: #bcbaba;
+  --clr-border: #252525;
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.task-list-wrapper {
+  padding: 1.5rem 2rem;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* Toolbar */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+  gap: .75rem;
+}
+
+.toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  font-size: .82rem;
+  color: var(--clr-muted);
+}
+
+.total-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--clr-text);
+}
+
+.divider {
+  width: 1px;
+  height: 14px;
+  background: var(--clr-border);
+}
+
+.done-label { color: var(--clr-accent); font-size: .8rem; }
+
+.toolbar-right {
+  display: flex;
+  gap: .3rem;
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: 9px;
+  padding: 3px;
+}
+
+.filter-btn {
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: var(--clr-muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: .78rem;
+  padding: .28rem .75rem;
+  cursor: pointer;
+  transition: all .15s ease;
+
+  &:hover { color: var(--clr-text); }
+
+  &.active {
+    background: var(--clr-accent-dim);
+    color: var(--clr-accent);
+  }
+}
+
+/* List */
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+
+/* Card */
+.task-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: 13px;
+  padding: .9rem 1.1rem;
+  transition: border-color .18s ease, transform .18s ease, opacity .18s ease;
+  animation: cardIn .3s ease both;
+
+  &:hover {
+    border-color: #333;
+    transform: translateX(3px);
+  }
+
+  &.completed {
+    opacity: .55;
+
+    .task-title { text-decoration: line-through; color: var(--clr-muted); }
+  }
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Checkbox */
+.check-btn {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  border: 2px solid var(--clr-border);
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .15s ease;
+  color: #0f0f0f;
+
+  svg { width: 12px; height: 12px; }
+
+  &:hover { border-color: var(--clr-accent); }
+
+  &.checked {
+    background: var(--clr-accent);
+    border-color: var(--clr-accent);
+  }
+}
+
+/* Content */
+.task-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.task-top {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin-bottom: .18rem;
+}
+
+.task-title {
+  font-size: .92rem;
+  font-weight: 500;
+  color: var(--clr-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color .15s ease;
+}
+
+.task-id {
+  font-size: .68rem;
+  color: var(--clr-muted);
+  flex-shrink: 0;
+  font-family: 'Syne', sans-serif;
+}
+
+.task-desc {
+  font-size: .78rem;
+  color: var(--clr-muted);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Badge */
+.status-badge {
+  flex-shrink: 0;
+  font-size: .68rem;
+  font-weight: 500;
+  padding: .22rem .65rem;
+  border-radius: 20px;
+  background: rgba(255, 95, 95, .1);
+  color: #ff7f7f;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+
+  &.done {
+    background: var(--clr-accent-dim);
+    color: var(--clr-accent);
+  }
+}
+
+/* Empty */
+.empty-state {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  color: var(--clr-muted);
+  font-size: .85rem;
+  padding: 2rem 1rem;
+  justify-content: center;
+
+  .empty-icon { font-size: 1.2rem; }
+}

@@ -1,0 +1,40 @@
+<header class="app-header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="logo-mark">
+        <span class="check-icon">✓</span>
+      </div>
+      <div class="brand-text">
+        <h1 class="app-title">DoIt</h1>
+        <span class="app-tagline">Stay on track</span>
+      </div>
+    </div>
+
+    <nav class="header-nav">
+      <button class="nav-btn" [class.active]="activeView === 'all'" (click)="setView('all')">
+        All
+      </button>
+      <button class="nav-btn" [class.active]="activeView === 'today'" (click)="setView('today')">
+        Today
+      </button>
+      <button class="nav-btn" [class.active]="activeView === 'done'" (click)="setView('done')">
+        Done
+      </button>
+    </nav>
+
+    <div class="header-actions">
+      <div class="task-count">
+        <span class="count-number">{{ pendingCount }}</span>
+        <span class="count-label">pending</span>
+      </div>
+      <button class="add-btn" (click)="onAddTask()">
+        <span class="plus">+</span>
+        <span>New Task</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="progress-bar">
+    <div class="progress-fill" [style.width.%]="completionPercent"></div>
+  </div>
+</header>
