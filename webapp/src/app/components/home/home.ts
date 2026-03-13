@@ -16,8 +16,6 @@ export class HomeComponent {
 
   ngOnInit(): void {
     this.taskSvc.loadTasks(); // fetch once on page load
-    console.log("init");
-
   }
 
   onTaskAdded(task: any): void {
