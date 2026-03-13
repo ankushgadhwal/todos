@@ -3,8 +3,14 @@ var router = express.Router();
 const Task = require("../models/task");
 
 /* GET home page. */
-router.get("/", async (req, res, next) => {
+router.get("/", async (req, res) => {
   const tasks = await Task.findAll();
+  res.json(tasks);
+});
+
+router.get("/:id", async (req, res) => {
+  const id = req.params.id;
+  const tasks = await Task.findByPk(id);
   res.json(tasks);
 });
 
