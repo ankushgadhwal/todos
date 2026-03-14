@@ -8,17 +8,13 @@ router.get("/", async (req, res) => {
   res.json(tasks);
 });
 
-router.get("/:id", async (req, res) => {
-  const id = req.params.id;
-  const tasks = await Task.findByPk(id);
-  res.json(tasks);
-});
+// router.get("/:id", async (req, res) => {
+//   const id = req.params.id;
+//   const tasks = await Task.findByPk(id);
+//   res.json(tasks);
+// });
 
-router.get("/:id", async (req, res) => {
-  const id = req.params.id;
-  const task = await Task.findByPk(id);
-  res.json(task);
-});
+
 
 router.post("/", async (req, res) => {
   const task = await Task.create(req.body);
@@ -27,8 +23,9 @@ router.post("/", async (req, res) => {
   // res.send("Task created successfully");
 });
 
-router.put("/", async (req, res) => {
-  // res.render('index', { title: 'Express' });
+router.put("/:id", async (req, res) => {
+  const id = req.params.id;
+  await Task.update(req.body, { where: { id: id } });
   res.send("Task updated successfully");
 });
 

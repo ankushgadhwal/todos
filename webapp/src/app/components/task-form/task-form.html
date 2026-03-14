@@ -42,7 +42,7 @@
     <div class="modal-footer">
       <button class="btn-cancel" (click)="onCancel()" type="button">Cancel</button>
       <button class="btn-submit" (click)="onSubmit()" type="button">
-        <span class="plus-icon">+</span> Add Task
+        <span class="plus-icon">+</span> {{ editTask?.id ? 'Update Task' : 'Add Task' }}
       </button>
     </div>
 

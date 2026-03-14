@@ -9,5 +9,14 @@ export interface Task {
 
 export interface TaskForm {
   title: string;
- description?: string;
+  description?: string;
+}
+
+export interface EditTaskForm {
+  id: string,
+  title: string,
+  description?: string,
+  completed: boolean,
+  createdAt: Date;
+  updatedAt: Date;
 }

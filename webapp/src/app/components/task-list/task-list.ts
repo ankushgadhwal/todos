@@ -1,5 +1,4 @@
 import { Component, EventEmitter, inject, input, Input, InputSignal, OnChanges, Output, signal } from '@angular/core';
-import { Component, EventEmitter, inject, input, Input, InputSignal, OnChanges, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import type { Task } from '../../types/task';
 
@@ -15,7 +14,7 @@ type FilterValue = 'all' | 'pending' | 'done';
 })
 export class TaskListComponent implements OnChanges {
   tasks: InputSignal<Task[]> = input.required<Task[]>();
-  @Output() editTaskEvent = new EventEmitter<number>();
+  @Output() editTaskEvent = new EventEmitter<Task>();
 
   activeFilter: FilterValue = 'all';
 
@@ -33,7 +32,7 @@ export class TaskListComponent implements OnChanges {
     this.activeFilter = 'all';
   }
 
-  editTask(taskId: any): void {
-    this.editTaskEvent.emit(taskId);
+  editTask(task: Task): void {
+    this.editTaskEvent.emit(task);
   }
 }

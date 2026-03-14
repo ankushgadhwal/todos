@@ -14,6 +14,7 @@ import type { Task } from '../../types/task';
 })
 export class HomeComponent {
   constructor(public taskUi: TaskUiService, public taskSvc: TaskService) { }
+   selectedTask: Task | null = null;
 
   ngOnInit(): void {
     this.taskSvc.loadTasks(); // fetch once on page load
@@ -29,9 +30,9 @@ export class HomeComponent {
     this.taskUi.closeAddForm();
   }
 
-  editTask(taskId: any): void {
-    console.log('Edit Task:', taskId);
-    this.taskSvc.getTaskById(taskId);
+  editTask(task: Task): void {
+    console.log('Edit Task:', task);
     this.taskUi.openAddForm();
+    this.selectedTask = { ...task };
   }
 }

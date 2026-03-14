@@ -1,8 +1,8 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TaskUiService } from '../../service/shared/task-ui-service';
-import type { Task, TaskForm } from '../../types/task';
+import type { EditTaskForm, Task, TaskForm } from '../../types/task';
 import { TaskService } from '../../service/task';
 
 
@@ -14,6 +14,7 @@ import { TaskService } from '../../service/task';
 })
 
 export class TaskFormComponent {
+  @Input() editTask: Task | null = null;
   @Output() taskAdded = new EventEmitter<Task>();
   @Output() cancelled = new EventEmitter<void>();
   private taskService = inject(TaskService);
@@ -22,13 +23,34 @@ export class TaskFormComponent {
 
   submitted = false;
   form: TaskForm = this.emptyForm();
-
   task = this.taskService.task;
 
-  ngOnInit(): void {
-    console.log(this.task());
-    console.log(this.taskService.task());
 
+  get isEditMode(): boolean {
+    return !!this.editTask;
+  }
+
+  ngOnInit(): void {
+    if (this.editTask) {
+      this.prefillForm(this.editTask);
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['editTask']) {
+      if (this.editTask) {
+        this.prefillForm(this.editTask);
+      } else {
+        this.reset();
+      }
+    }
+  }
+
+  private prefillForm(task: Task): void {
+    this.form = {
+      title: task.title ?? '',
+      description: task.description ?? '',
+    };
   }
 
 
@@ -36,29 +58,50 @@ export class TaskFormComponent {
     this.submitted = true;
     if (!this.form.title.trim()) return;
 
-    const task: Task = {
-      ...this.form,
-      title: this.form.title.trim(),
-      description: this.form.description?.trim() || '',
-      completed: false,
-      createdAt: new Date(),
-    };
-
-
-    this.taskService.addTask(task).subscribe({
-      next: (res) => {
-        // This block is executed on a successful response
-        console.log('Post successful, response ID:', res);
-      },
-      error: (error) => {
-        // This block is executed if an error occurs
-        console.error('There was an error!', error);
-      },
-      complete: () => {
-        // This block is executed when the observable completes
-        console.log('Request complete.');
+    if (this.isEditMode) {
+      const task: Task = {
+        ...this.editTask!,
+        ...this.form,
+        title: this.form.title.trim(),
+      };
+      this.taskService.updateTask(task).subscribe({
+        next: (res) => {
+          // This block is executed on a successful response
+          console.log('Post successful, response ID:', res);
+        },
+        error: (error) => {
+          // This block is executed if an error occurs
+          console.error('There was an error!', error);
+        },
+        complete: () => {
+          // This block is executed when the observable completes
+          console.log('Request complete.');
+        }
       }
-    });
+      );
+    } else {
+      const task: Task = {
+        ...this.form,
+        title: this.form.title.trim(),
+        description: this.form.description?.trim() || '',
+        completed: false,
+        createdAt: new Date(),
+      };
+      this.taskService.addTask(task).subscribe({
+        next: (res) => {
+          // This block is executed on a successful response
+          console.log('Post successful, response ID:', res);
+        },
+        error: (error) => {
+          // This block is executed if an error occurs
+          console.error('There was an error!', error);
+        },
+        complete: () => {
+          // This block is executed when the observable completes
+          console.log('Request complete.');
+        }
+      });
+    }
     this.reset();
     this.taskUi.closeAddForm();
   }
