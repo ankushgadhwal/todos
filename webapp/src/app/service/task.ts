@@ -22,10 +22,11 @@ export class TaskService {
       tap({
         next: data => { this.tasks.set(data); this.loading.set(false); },
         error: err => { this.error.set(err.message); this.loading.set(false); }
+        next: data => { this.tasks.set(data); this.loading.set(false); },
+        error: err => { this.error.set(err.message); this.loading.set(false); }
       })
     ).subscribe();
   }
-
 
   addTask(task: Task): Observable<Task> {
     return this.http.post<Task>(this.apiUrl, task);

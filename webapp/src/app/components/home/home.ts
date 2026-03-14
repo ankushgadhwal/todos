@@ -4,6 +4,7 @@ import { TaskUiService } from '../../service/shared/task-ui-service';
 import { CommonModule } from '@angular/common';
 import { TaskListComponent } from "../task-list/task-list";
 import { TaskService } from '../../service/task';
+import type { Task } from '../../types/task';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +17,7 @@ export class HomeComponent {
 
   ngOnInit(): void {
     this.taskSvc.loadTasks(); // fetch once on page load
+    //comment some code
   }
 
   onTaskAdded(task: any): void {
