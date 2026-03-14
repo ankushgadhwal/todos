@@ -12,7 +12,7 @@ export class TaskService {
   private apiUrl = environment.apiUrl;
 
   tasks = signal<Task[]>([]);
-  task = signal({});
+  task = signal<Task | null>(null);
   loading = signal(true);
   error = signal<string | null>(null);
 
@@ -34,7 +34,7 @@ export class TaskService {
   getTaskById(id: number): void {
     this.http.get<Task>(this.apiUrl + `/${id}`).subscribe({
       next: data => {
-        this.task.set(data); console.log(this.task);
+        this.task.set(data); console.log(this.task());
       },
       error: err => { console.log(err.message); }
     });

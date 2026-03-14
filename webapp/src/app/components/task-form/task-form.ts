@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TaskUiService } from '../../service/shared/task-ui-service';
@@ -16,15 +16,21 @@ import { TaskService } from '../../service/task';
 export class TaskFormComponent {
   @Output() taskAdded = new EventEmitter<Task>();
   @Output() cancelled = new EventEmitter<void>();
+  private taskService = inject(TaskService);
 
-  constructor(private taskUi: TaskUiService, private taskService: TaskService) { }
+  constructor(private taskUi: TaskUiService) { }
 
   submitted = false;
   form: TaskForm = this.emptyForm();
 
+  task = this.taskService.task;
+
   ngOnInit(): void {
-    console.log('TaskFormComponent initialized.', this.taskService.task());
+    console.log(this.task());
+    console.log(this.taskService.task());
+
   }
+
 
   onSubmit(): void {
     this.submitted = true;
