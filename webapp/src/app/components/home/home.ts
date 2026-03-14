@@ -12,7 +12,7 @@ import { TaskService } from '../../service/task';
   styleUrl: './home.scss',
 })
 export class HomeComponent {
-  constructor(public taskUi: TaskUiService, public taskSvc: TaskService) {}
+  constructor(public taskUi: TaskUiService, public taskSvc: TaskService) { }
 
   ngOnInit(): void {
     this.taskSvc.loadTasks(); // fetch once on page load
@@ -25,5 +25,11 @@ export class HomeComponent {
 
   onCancel(): void {
     this.taskUi.closeAddForm();
+  }
+
+  editTask(taskId: any): void {
+    console.log('Edit Task:', taskId);
+    this.taskSvc.getTaskById(taskId);
+    this.taskUi.openAddForm();
   }
 }

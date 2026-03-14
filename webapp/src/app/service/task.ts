@@ -12,6 +12,7 @@ export class TaskService {
   private apiUrl = environment.apiUrl;
 
   tasks = signal<Task[]>([]);
+  task = signal({});
   loading = signal(true);
   error = signal<string | null>(null);
 
@@ -19,8 +20,8 @@ export class TaskService {
     // The .get method returns an Observable
     this.http.get<Task[]>(this.apiUrl).pipe(
       tap({
-        next:  data  => { this.tasks.set(data); this.loading.set(false); },
-        error: err   => { this.error.set(err.message); this.loading.set(false); }
+        next: data => { this.tasks.set(data); this.loading.set(false); },
+        error: err => { this.error.set(err.message); this.loading.set(false); }
       })
     ).subscribe();
   }
@@ -28,5 +29,14 @@ export class TaskService {
 
   addTask(task: Task): Observable<Task> {
     return this.http.post<Task>(this.apiUrl, task);
+  }
+
+  getTaskById(id: number): void {
+    this.http.get<Task>(this.apiUrl + `/${id}`).subscribe({
+      next: data => {
+        this.task.set(data); console.log(this.task);
+      },
+      error: err => { console.log(err.message); }
+    });
   }
 }

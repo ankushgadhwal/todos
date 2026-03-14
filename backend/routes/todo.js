@@ -3,24 +3,30 @@ var router = express.Router();
 const Task = require("../models/task");
 
 /* GET home page. */
-router.get("/", async (req, res, next) => {
+router.get("/", async (req, res) => {
   const tasks = await Task.findAll();
   res.json(tasks);
 });
 
-router.post("/", async (req, res, next) => {
+router.get("/:id", async (req, res) => {
+  const id = req.params.id;
+  const task = await Task.findByPk(id);
+  res.json(task);
+});
+
+router.post("/", async (req, res) => {
   const task = await Task.create(req.body);
-  console.log(task);  
+  console.log(task);
   res.json(task);
   // res.send("Task created successfully");
 });
 
-router.put("/", async (req, res, next) => {
+router.put("/", async (req, res) => {
   // res.render('index', { title: 'Express' });
   res.send("Task updated successfully");
 });
 
-router.delete("/", async (req, res, next) => {
+router.delete("/", async (req, res) => {
   // res.render('index', { title: 'Express' });
   res.send("Task deleted successfully");
 });

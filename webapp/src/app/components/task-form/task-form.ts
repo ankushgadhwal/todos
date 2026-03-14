@@ -22,6 +22,10 @@ export class TaskFormComponent {
   submitted = false;
   form: TaskForm = this.emptyForm();
 
+  ngOnInit(): void {
+    console.log('TaskFormComponent initialized.', this.taskService.task());
+  }
+
   onSubmit(): void {
     this.submitted = true;
     if (!this.form.title.trim()) return;
