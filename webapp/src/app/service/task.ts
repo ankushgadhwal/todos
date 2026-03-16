@@ -30,9 +30,45 @@ export class TaskService {
     return this.http.post<Task>(this.apiUrl, task);
   }
 
-  updateTask(task: Task): Observable<Task> {
-    return this.http.put<Task>(this.apiUrl + `/${task.id}`, task);
+updateTask(updated: Task): void {
+    this.http.put<Task>(`${this.apiUrl}/${updated.id}`, updated).subscribe({
+      next: (response: any) => {
+        // Handle both response shapes:
+        // Shape A — API returns the task directly:  { id, title, ... }
+        // Shape B — API returns wrapped:            { message, task: { id, ... } }
+        const saved: Task = response?.task ?? response;
+        console.log(saved);
+
+        if (saved?.id) {
+          // ✅ update just that one row in the signal
+          this.tasks.update(all =>
+            all.map(t => t.id === saved.id ? { ...t, ...saved } : t)
+          );
+        } else {
+          // ✅ fallback — reload full list if response shape is unexpected
+          this.loadTasks();
+        }
+      },
+      error: err => this.error.set(err.message)
+    });
   }
+
+  // updateTask(updated: Task): void {
+  //   this.http.put<Task>(`${this.apiUrl}/${updated.id}`, updated).pipe(
+  //     tap(saved => {
+  //       // ✅ Option A — replace just that one item in the signal instantly
+  //       console.log(saved);
+
+  //       this.tasks.update(all =>
+  //         all.map(t => (t.id === saved.id ? { ...t, ...saved } : t))
+  //       );
+  //     }),
+  //     // ✅ Option B — also reload full list to stay 100% in sync with server
+  //     // tap(() => this.loadTasks())
+  //   ).subscribe({
+  //     error: err => this.error.set(err.message)
+  //   });
+  // }
 
   // getTaskById(id: number): void {
   //   this.http.get<Task>(this.apiUrl + `/${id}`).subscribe({

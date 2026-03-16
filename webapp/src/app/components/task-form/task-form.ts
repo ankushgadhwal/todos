@@ -59,26 +59,34 @@ export class TaskFormComponent {
     if (!this.form.title.trim()) return;
 
     if (this.isEditMode) {
-      const task: Task = {
+      // const task: Task = {
+      //   ...this.editTask!,
+      //   ...this.form,
+      //   title: this.form.title.trim(),
+      //   description: this.form.description?.trim() || '',
+      // };
+
+      this.taskService.updateTask({
         ...this.editTask!,
         ...this.form,
         title: this.form.title.trim(),
-      };
-      this.taskService.updateTask(task).subscribe({
-        next: (res) => {
-          // This block is executed on a successful response
-          console.log('Post successful, response ID:', res);
-        },
-        error: (error) => {
-          // This block is executed if an error occurs
-          console.error('There was an error!', error);
-        },
-        complete: () => {
-          // This block is executed when the observable completes
-          console.log('Request complete.');
-        }
-      }
-      );
+      });
+      // this.taskService.updateTask(task).subscribe({
+      //   next: (res) => {
+      //     // This block is executed on a successful response
+      //     console.log('Post successful, response ID:', res);
+
+      //   },
+      //   error: (error) => {
+      //     // This block is executed if an error occurs
+      //     console.error('There was an error!', error);
+      //   },
+      //   complete: () => {
+      //     // This block is executed when the observable completes
+      //     console.log('Request complete.');
+      //   }
+      // }
+      // );
     } else {
       const task: Task = {
         ...this.form,
@@ -91,6 +99,7 @@ export class TaskFormComponent {
         next: (res) => {
           // This block is executed on a successful response
           console.log('Post successful, response ID:', res);
+
         },
         error: (error) => {
           // This block is executed if an error occurs
